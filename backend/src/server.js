@@ -13,6 +13,10 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN || '*';
 
 app.use(cors({ origin: CORS_ORIGIN }));
 
+app.get('/health', (req, res) => {
+	res.json({ status: 'ok', timestamp: Date.now() });
+});
+
 app.use('/api', apiRouter);
 app.use('/api', statsRouter);
 
