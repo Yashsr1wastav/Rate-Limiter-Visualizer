@@ -48,24 +48,24 @@ export default function ControlPanel({ algorithm, config, doRequest, resetState 
       <h2 style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-sm uppercase tracking-widest text-text-muted mb-3">
         Controls
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
         <button
           onClick={handleFire}
           disabled={loading}
-          className="px-4 py-3 bg-accent-green bg-opacity-20 border-2 border-accent-green text-accent-green hover:bg-opacity-30 rounded-lg transition-all font-bold"
+          className="px-4 py-3 bg-accent-green bg-opacity-20 border-2 border-accent-green text-accent-green hover:bg-opacity-30 rounded-lg transition-all font-bold text-sm"
         >
           🔥 FIRE REQUEST
         </button>
         <button
           onClick={handleBurst}
           disabled={loading}
-          className="px-4 py-3 bg-accent-orange bg-opacity-20 border-2 border-accent-orange text-accent-orange hover:bg-opacity-30 rounded-lg transition-all font-bold"
+          className="px-4 py-3 bg-accent-orange bg-opacity-20 border-2 border-accent-orange text-accent-orange hover:bg-opacity-30 rounded-lg transition-all font-bold text-sm"
         >
           💥 BURST (15x)
         </button>
         <button
           onClick={handleAuto}
-          className={`px-4 py-3 border-2 rounded-lg transition-all font-bold ${
+          className={`px-4 py-3 border-2 rounded-lg transition-all font-bold text-sm ${
             auto
               ? 'bg-accent-blue bg-opacity-20 border-accent-blue text-accent-blue'
               : 'border-border text-text-primary hover:border-accent-blue'
@@ -76,7 +76,7 @@ export default function ControlPanel({ algorithm, config, doRequest, resetState 
         <button
           onClick={handleReset}
           disabled={loading}
-          className="px-4 py-3 bg-accent-red bg-opacity-20 border-2 border-accent-red text-accent-red hover:bg-opacity-30 rounded-lg transition-all font-bold"
+          className="px-4 py-3 bg-accent-red bg-opacity-20 border-2 border-accent-red text-accent-red hover:bg-opacity-30 rounded-lg transition-all font-bold text-sm"
         >
           ↺ RESET
         </button>

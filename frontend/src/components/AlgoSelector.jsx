@@ -12,12 +12,12 @@ export default function AlgoSelector({ algorithm, setAlgorithm }) {
       <h2 style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-sm uppercase tracking-widest text-text-muted mb-3">
         Select Algorithm
       </h2>
-      <div className="flex gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {algorithms.map(algo => (
           <button
             key={algo.id}
             onClick={() => setAlgorithm(algo.id)}
-            className={`px-4 py-3 rounded-lg border-2 transition-all ${
+            className={`w-full px-4 py-3 rounded-lg border-2 transition-all ${
               algorithm === algo.id
                 ? 'border-[2px] border-[var(--accent-blue)] bg-[rgba(68,136,255,0.15)] text-[var(--accent-blue)] shadow-[0_0_12px_rgba(68,136,255,0.4)]'
                 : 'border-border hover:border-accent-blue text-text-primary'
