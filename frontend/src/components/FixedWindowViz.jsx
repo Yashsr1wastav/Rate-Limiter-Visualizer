@@ -28,7 +28,7 @@ export default function FixedWindowViz({ statsRef }) {
   const color = pct >= 100 ? 'var(--accent-red)' : pct > 70 ? 'var(--accent-yellow)' : 'var(--accent-blue)'
 
   return (
-    <div className={`card p-6 flex flex-col items-center justify-center h-64 transition-all ${isBoundary ? 'border-accent-red' : ''}`}>
+    <div className={`card p-6 flex flex-col items-center justify-center h-64 opacity-0 animate-fade-in transition-all ${isBoundary ? 'border-accent-red' : ''}`}>
       <h3 style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-sm uppercase tracking-widest text-text-muted mb-4">
         Fixed Window
       </h3>
@@ -40,14 +40,15 @@ export default function FixedWindowViz({ statsRef }) {
 
       {/* Progress bar */}
       <div className="w-full px-2">
-        <div className="h-6 bg-gray-900 rounded-lg overflow-hidden border border-border mb-3">
+        <div className="h-3 bg-gray-900 rounded-[6px] overflow-hidden border border-border mb-3">
           <div
             style={{
               width: `${pct}%`,
-              backgroundColor: color,
-              transition: 'width 200ms ease, background-color 200ms ease'
+              backgroundImage: 'linear-gradient(90deg, #4488ff 0%, #8844ff 100%)',
+              transition: 'width 0.3s ease',
+              boxShadow: '0 0 8px rgba(68, 136, 255, 0.6)'
             }}
-            className="h-full rounded"
+            className="h-full rounded-[6px]"
           />
         </div>
       </div>

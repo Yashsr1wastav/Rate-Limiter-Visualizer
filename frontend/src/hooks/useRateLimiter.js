@@ -6,9 +6,9 @@ export default function useRateLimiter() {
   const [stats, setStats] = useState({ total: 0, allowed: 0, blocked: 0, latencies: [] })
   const [redisState, setRedisState] = useState(null)
   const statsRef = useRef(null)
+  const isPollingRef = useRef(false)
   // expose backend redis-derived stats to visualizers via ref
   statsRef.current = redisState
-  let isPolling = false
 
   async function doRequest(algorithm, config) {
     const start = performance.now()
@@ -24,6 +24,36 @@ export default function useRateLimiter() {
         blocked: s.blocked + (res.status === 429 ? 1 : 0),
         latencies: [...s.latencies.slice(-99), latency]
       }))
+
+      setRedisState(prev => {
+        const nextState = { ...(prev || {}) }
+
+        if (algorithm === 'token_bucket') {
+          nextState.token_bucket = {
+            tokens: res.tokens,
+            maxTokens: res.maxTokens || 10
+          }
+        }
+
+        if (algorithm === 'fixed_window') {
+          nextState.fixed_window = {
+            count: res.count,
+            maxRequests: res.maxRequests || 10,
+            windowRemaining: res.windowRemaining
+          }
+        }
+
+        if (algorithm === 'sliding_window') {
+          nextState.sliding_window = {
+            prevCount: res.prevCount,
+            currCount: res.currCount,
+            overlap: res.overlap,
+            weighted: res.weightedCount
+          }
+        }
+
+        return nextState
+      })
       return res
     } catch (err) {
       console.error('Request error', err)
@@ -33,15 +63,15 @@ export default function useRateLimiter() {
   }
 
   async function pollStats() {
-    if (isPolling) return
-    isPolling = true
+    if (isPollingRef.current) return
+    isPollingRef.current = true
     try {
       const s = await fetchStats()
       setRedisState(s)
     } catch (err) {
       console.error('poll stats error', err)
     } finally {
-      isPolling = false
+      isPollingRef.current = false
     }
   }
 

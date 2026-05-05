@@ -19,11 +19,11 @@ export default function AlgoSelector({ algorithm, setAlgorithm }) {
             onClick={() => setAlgorithm(algo.id)}
             className={`px-4 py-3 rounded-lg border-2 transition-all ${
               algorithm === algo.id
-                ? 'border-accent-blue bg-accent-blue bg-opacity-20 text-accent-blue shadow-lg'
-                : 'border-border hover:border-accent-blue'
+                ? 'border-[2px] border-[var(--accent-blue)] bg-[rgba(68,136,255,0.15)] text-[var(--accent-blue)] shadow-[0_0_12px_rgba(68,136,255,0.4)]'
+                : 'border-border hover:border-accent-blue text-text-primary'
             }`}
           >
-            <div style={{ fontFamily: "'JetBrains Mono', monospace" }} className="font-bold text-sm">
+            <div style={{ fontFamily: "'JetBrains Mono', monospace" }} className={`font-bold text-sm ${algorithm === algo.id ? 'text-[var(--accent-blue)]' : 'text-text-primary'}`}>
               {algo.label}
             </div>
             <div className="text-xs text-text-muted mt-1">{algo.desc}</div>

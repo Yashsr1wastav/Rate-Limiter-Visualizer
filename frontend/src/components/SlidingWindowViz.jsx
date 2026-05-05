@@ -25,7 +25,7 @@ export default function SlidingWindowViz({ statsRef }) {
   const color = pct >= 100 ? 'var(--accent-red)' : pct > 70 ? 'var(--accent-yellow)' : 'var(--accent-green)'
 
   return (
-    <div className="card p-6 flex flex-col items-center justify-center h-64">
+    <div className="card p-6 flex flex-col items-center justify-center h-64 opacity-0 animate-fade-in">
       <h3 style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-sm uppercase tracking-widest text-text-muted mb-4">
         Sliding Window
       </h3>
@@ -38,35 +38,58 @@ export default function SlidingWindowViz({ statsRef }) {
       {/* Overlapping bars visualization */}
       <div className="w-full px-2 space-y-2">
         {/* Previous window (faded) */}
-        <div className="h-4 bg-gray-900 rounded-lg overflow-hidden border border-border">
+        <div className="h-3 bg-gray-900 rounded-[6px] overflow-hidden border border-border">
           <div
             style={{
               width: `${Math.min(100, (prev / maxRequests) * 100)}%`,
-              backgroundColor: 'var(--accent-blue)',
-              opacity: 0.4,
-              transition: 'width 200ms ease'
+              backgroundImage: 'linear-gradient(90deg, #4488ff 0%, #8844ff 100%)',
+              opacity: 0.5,
+              transition: 'width 0.3s ease',
+              boxShadow: '0 0 8px rgba(68, 136, 255, 0.6)'
             }}
-            className="h-full rounded"
+            className="h-full rounded-[6px]"
           />
         </div>
 
         {/* Current window */}
-        <div className="h-4 bg-gray-900 rounded-lg overflow-hidden border border-border">
+        <div className="h-3 bg-gray-900 rounded-[6px] overflow-hidden border border-border">
           <div
             style={{
               width: `${Math.min(100, (curr / maxRequests) * 100)}%`,
-              backgroundColor: 'var(--accent-blue)',
-              transition: 'width 200ms ease'
+              backgroundImage: 'linear-gradient(90deg, #4488ff 0%, #8844ff 100%)',
+              transition: 'width 0.3s ease',
+              boxShadow: '0 0 8px rgba(68, 136, 255, 0.6)'
             }}
-            className="h-full rounded"
+            className="h-full rounded-[6px]"
           />
         </div>
       </div>
 
-      {/* Formula display */}
-      <div className="mt-3 text-xs text-text-muted text-center font-mono">
-        <div>{prev} × {overlap.toFixed(2)} + {curr} = {weighted}</div>
-      </div>
+      {(prev > 0 || curr > 0) && (
+        <div className="mt-3 text-center font-mono formula">
+          <div className="text-sm leading-relaxed">
+            {prev > 0 ? (
+              <>
+                <span style={{ color: '#4488ff', fontSize: '1.05rem', fontWeight: 700 }}>{prev}</span>{' '}
+                <span style={{ color: 'var(--text-muted)' }}>×</span>{' '}
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>{overlap.toFixed(2)}</span>{' '}
+                <span style={{ color: 'var(--text-muted)' }}>+</span>{' '}
+                <span style={{ color: '#00ff88', fontSize: '1.05rem', fontWeight: 700 }}>{curr}</span>{' '}
+                <span style={{ color: 'var(--text-muted)' }}>=</span>{' '}
+                <span style={{ color: '#ffffff', fontSize: '1.1rem', fontWeight: 800 }}>{weighted}</span>
+              </>
+            ) : (
+              <>
+                <span style={{ color: '#4488ff', fontSize: '1.05rem', fontWeight: 700 }}>0</span>{' '}
+                <span style={{ color: 'var(--text-muted)' }}>+</span>{' '}
+                <span style={{ color: '#00ff88', fontSize: '1.05rem', fontWeight: 700 }}>{curr}</span>{' '}
+                <span style={{ color: 'var(--text-muted)' }}>=</span>{' '}
+                <span style={{ color: '#ffffff', fontSize: '1.1rem', fontWeight: 800 }}>{weighted}</span>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

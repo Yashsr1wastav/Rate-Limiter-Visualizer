@@ -25,8 +25,8 @@ export default function App() {
         <p className="text-text-muted text-sm tracking-widest">Real HTTP traffic. Redis Lua scripts. Production algorithms.</p>
       </header>
 
-      <main className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <section className="lg:col-span-3 space-y-6">
+      <main className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+        <section className="lg:col-span-3 space-y-6 flex flex-col min-h-[calc(100vh-180px)]">
           {/* Algo Selector & Controls */}
           <div className="card p-6">
             <AlgoSelector algorithm={algorithm} setAlgorithm={setAlgorithm} />
@@ -41,7 +41,9 @@ export default function App() {
           </div>
 
           {/* Request Feed */}
-          <RequestFeed feed={feed} />
+          <div className="flex-1 flex flex-col">
+            <RequestFeed feed={feed} />
+          </div>
         </section>
 
         {/* Sidebar */}
