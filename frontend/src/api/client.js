@@ -2,7 +2,12 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001',
-  timeout: 5000,
+  timeout: 10000,
+});
+
+const statsApi = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001',
+  timeout: 15000,
 });
 
 export async function fireRequest(algorithm, config) {
@@ -27,7 +32,7 @@ export async function fireRequest(algorithm, config) {
 }
 
 export async function fetchStats() {
-  const res = await api.get('/api/stats/demo_user');
+  const res = await statsApi.get('/api/stats/demo_user');
   return res.data;
 }
 

@@ -8,6 +8,7 @@ export default function useRateLimiter() {
   const statsRef = useRef(null)
   // expose backend redis-derived stats to visualizers via ref
   statsRef.current = redisState
+  let isPolling = false
 
   async function doRequest(algorithm, config) {
     const start = performance.now()
@@ -32,11 +33,15 @@ export default function useRateLimiter() {
   }
 
   async function pollStats() {
+    if (isPolling) return
+    isPolling = true
     try {
       const s = await fetchStats()
       setRedisState(s)
     } catch (err) {
       console.error('poll stats error', err)
+    } finally {
+      isPolling = false
     }
   }
 
@@ -51,7 +56,7 @@ export default function useRateLimiter() {
   }
 
   useEffect(() => {
-    const id = setInterval(pollStats, 500)
+    const id = setInterval(pollStats, 3000)
     pollStats()
     return () => clearInterval(id)
   }, [])
